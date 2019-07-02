@@ -1,0 +1,10 @@
+;tip.label;col;name
+1;DumC1c43;TRUE;MH627299~~clone~seq.~~~M897~~PAA_2~~~(Social~italic(Stegodyphus))
+2;ASV_3;FALSE;italic(Borrelia)~~ASV_3~~~(Social~italic(Stegodyphus))
+3;Unc05i8u;FALSE;KM978314~~~uncultured~~bacterium~~~(Scorpion)
+4;H3DAfze5;FALSE;FR733687~~~italic(Borreliella~~afzelii)~~~(Tick)
+5;H3DBurgd;FALSE;U03396~~~italic(Borreliella~~burgdorferi)~~~(Tick)
+6;H3DTurci;FALSE;AB473539~~~italic(Borrelia~~turcica)~~~(Tick)
+7;H3DRecur;FALSE;CP000993~~~italic(Borrelia~~recurrentis)~~~(Louse)
+8;H3DCori3;FALSE;AF210134~~~italic(Borrelia~~coriaceae)~~~(Tick)
+9;IBVSpeci;FALSE;U42638~~~italic(Cristispira)~sp.~~~(Oyster)

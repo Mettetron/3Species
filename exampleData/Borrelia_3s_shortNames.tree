@@ -1,0 +1,24 @@
+[
+Wed Oct 31 14:59:46 2018: Loaded from /Users/mettemb/Dropbox/PhD_stuff/Methods_Data/Trees/3SpeciesTrees/Borrelia/BorreliaSeqs_3s_nov_MrBayestree.nwk
+
+[created as copy of 'tree_BorreliaSeqs_3s_nov_MrBayestreenwk']
+[created as copy of 'tree_BorreliaSeqs_3s_nov_MrBayestreenwk_fewerSeqs']
+Mon Nov  5 15:08:37 2018: tree_BorreliaSeqs_3s_nov_MrBayestreenwk_noOut saved to /Users/mettemb/Dropbox/PhD_stuff/Methods_Data/Trees/3SpeciesTrees/Borrelia/Borrelia_3s_shortNames.tree
+]
+((((DumC1c43:0.00000,
+ASV_3:0.00010
+):0.04100,
+Unc05i8u:0.01505
+):0.05403,
+((((H3DAfze5:0.00702,
+H3DBurgd:0.00486
+):0.01871,
+H3DTurci:0.00585
+):0.00826,
+H3DRecur:0.00651
+):0.00460,
+H3DCori3:0.00681
+):0.05121
+):0.06710,
+IBVSpeci:0.26552
+);
