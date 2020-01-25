@@ -114,14 +114,7 @@ data.asv.t.minreads <- data.asv.t[, which(colSums(data.asv.t) >= min_reads)]
 data.meta.norm <- data.meta[which(rownames(data.meta) %in% colnames(data.asv.t.minreads)), ]
 
 # fractionify
-
-data.asv.t.norm <- data.asv.t.minreads
-for (i in 1:ncol(data.asv.t.norm)){
-  k <- sum(data.asv.t.norm[, i])
-  for (j in 1:nrow(data.asv.t.norm)){
-    data.asv.t.norm[j,i] <- data.asv.t.norm[j,i]/k
-  }
-}
+data.asv.t.norm <- apply(data.asv.t.minreads, 2, function(x) {x / sum(x)})
 
 # just checking that everything sums to 1
 colSums(data.asv.t.norm)
