@@ -10,7 +10,7 @@
 #         to get geographical distances between samples, you need to include 
 #         latitude and longitude (in decimal degrees) as attributes in the sample data.
 
-setwd("~/ /") 
+setwd(" ") 
 study <- "TSPfinal"
 
 ################### IMPORT #####################################################
@@ -64,7 +64,7 @@ data.asv.colony <- as.data.frame(data.summed)
 ################### GET GEO DISTANCES ##########################################
 library(sp)
 # take only col, lat and lon
-col.coords <- data.meta.norm[, c('nest', 'lat','lon')]
+col.coords <- data.meta.norm[, c('nest', 'lon','lat')]
 # get unique cases - so one line for each colony
 col.coords <- unique(col.coords)
 #set colony as rowname
@@ -128,12 +128,8 @@ gg <-ggplot(plot.data, aes(x=geo, y=beta)) +
   ylab("Bray-Curtis dissimilarity") +
   theme(axis.text = element_text(size = 12)) + 
   geom_smooth(method = lm, se = FALSE, color = 1, lty = "dashed", size=0.5) + # add linear regression line, don't add shaded confidence region
-  annotation_custom(grob=textGrob(label, gp=gpar(fontsize=10)), xmin=1400, xmax=1700, ymin=-0.2, ymax=-0.15) + # change here for different species
+  annotation_custom(grob=textGrob(label, gp=gpar(fontsize=10)), xmin=ifelse(species=="sarasinorum", 2200, ifelse(species=="dumicola", 1400, 1600)), xmax=ifelse(species=="sarasinorum", 2700, ifelse(species=="dumicola", 1700, 2000)), ymin=-0.2, ymax=-0.15) + # change here for different species
   scale_y_continuous(limits = c(0, 1.0))
-
-# sar: xmin=600, xmax=800
-# mim: xmin=1700, xmax=2000
-# dum: xmin=1400, xmax=1700
 
 gg
 gb <- ggplot_build(gg)
@@ -142,42 +138,3 @@ gt$layout$clip[gt$layout$name=="panel"] <- "off"
 jpeg(sprintf("%s_BdivVSgeodiv.jpg", species), width = 18, height = 9, units="cm", res=600)
 print(grid.draw(gt))
 dev.off()
-
-#  cor test. null hypothesis: slope=0
-cor.test(x,as.numeric(y))
-
-### mim
-# Pearson's product-moment correlation
-# 
-# data:  x and as.numeric(y)
-# t = 1.2861, df = 251, p-value = 0.1996
-# alternative hypothesis: true correlation is not equal to 0
-# 95 percent confidence interval:
-# -0.04284155  0.20222393
-# sample estimates:
-# cor 
-# 0.08091394 
-
-### dum
-# Pearson's product-moment correlation
-# 
-# data:  x and as.numeric(y)
-# t = -0.56374, df = 376, p-value = 0.5733
-# alternative hypothesis: true correlation is not equal to 0
-# 95 percent confidence interval:
-# -0.12954854  0.07201865
-# sample estimates:
-# cor 
-# -0.02906037 
-
-### sar
-# Pearson's product-moment correlation
-# 
-# data:  x and as.numeric(y)
-# t = 5.6446, df = 526, p-value = 2.71e-08
-# alternative hypothesis: true correlation is not equal to 0
-# 95 percent confidence interval:
-# 0.1568533 0.3178365
-# sample estimates:
-# cor 
-# 0.2389864 
