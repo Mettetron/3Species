@@ -10,7 +10,8 @@
 #       Sample data table with samples in rows and sample attributes in columns
 
 
-setwd("~/ /")
+setwd("~/")
+
 study <- "TSPfinal"
 
 ################### IMPORT #####################################################
@@ -37,31 +38,43 @@ for (pop in data.meta.norm$population) {
 data.meta.norm$population <- paste(data.meta.norm$population, "(", pop.n, ")", sep = "")
 
 ################# FIND CORE ##################################################
+# this is a way to select ASVs to plot by their prevalence, see below for plotting of specific ASVs
 
-# make presence/absence data
-library(vegan)
-data.asv.pa <- data.asv.norm
-threshold <- 0.001  # for fraction data, this is 0.1%
-data.asv.pa[data.asv.pa < threshold] <- 0 
-data.asv.pa <- decostand(data.asv.pa, method="pa")
 
-# now sum up all the rows 
-asv.sums <- rowSums(data.asv.pa)
+# # make presence/absence data
+# library(vegan)
+# data.asv.pa <- data.asv.norm
+# threshold <- 0.0001  # for fraction data, this is 0.01%
+# data.asv.pa[data.asv.pa < threshold] <- 0 
+# data.asv.pa <- decostand(data.asv.pa, method="pa")
+# 
+# # now sum up all the rows 
+# asv.sums <- rowSums(data.asv.pa)
+# 
+# # just get all asvs ordered by most core-like
+# data.tax.asv.corenum <- data.tax.asv.norm
+# data.tax.asv.corenum$fiveplus <- asv.sums
+# data.tax.asv.corenum.sorted <- data.tax.asv.corenum[order(-data.tax.asv.corenum$fiveplus), ]
+# 
+# # set minimum number to be called core:
+# # must be present in 20%
+# core.num <- ncol(data.asv.norm)/5
+# 
+# # only keep ASVs above core num
+# data.tax.asv.corenum.sorted.core <- data.tax.asv.corenum.sorted[data.tax.asv.corenum.sorted$fiveplus > core.num, ]
+# 
+# # get shorter name
+# data.core <- data.tax.asv.corenum.sorted.core
 
-# just get all asvs ordered by most core-like
-data.tax.asv.corenum <- data.tax.asv.norm
-data.tax.asv.corenum$fiveplus <- asv.sums
-data.tax.asv.corenum.sorted <- data.tax.asv.corenum[order(-data.tax.asv.corenum$fiveplus), ]
 
-# set minimum number to be called core:
-# must be present in 20%
-core.num <- ncol(data.asv.norm)/5
 
-# only keep ASVs above core num
-data.tax.asv.corenum.sorted.core <- data.tax.asv.corenum.sorted[data.tax.asv.corenum.sorted$fiveplus > core.num, ]
-
-# get shorter name
-data.core <- data.tax.asv.corenum.sorted.core
+## core based on other data
+data.core <- data.tax.asv.norm[c("ASV_2", "ASV_4", "ASV_3", 
+                                 "ASV_1", "ASV_15", "ASV_6", 
+                                 "ASV_8", "ASV_10", "ASV_47", 
+                                 "ASV_11", "ASV_14", "ASV_7", "ASV_25", "ASV_44",
+                                 "ASV_43","ASV_21", "ASV_65",
+                                 "ASV_68", "ASV_45", "ASV_16"), ]
 
 ################### GET PERCENTAGES ############################################
 
@@ -69,7 +82,7 @@ data.core <- data.tax.asv.corenum.sorted.core
 pop.list <- unique(data.meta.norm$population)
 
 # separate asv and tax and put asv column in data.core.tax
-data.core.asv <- data.core[, 8:(ncol(data.core)-1)] # getting rid of the fiveplus column
+data.core.asv <- data.core[, 8:ncol(data.core)] # getting rid of the fiveplus column
 data.core.tax <- data.core[, 1:7]
 data.core.tax$asv <- rownames(data.core.tax)
 
@@ -77,10 +90,10 @@ data.core.tax$asv <- rownames(data.core.tax)
 colnames(data.core.asv) == rownames(data.meta.norm)
 
 # make p/a again
-threshold <- 0.001  # for fraction data, this is 0.1%
+threshold <- 0.0001  # for fraction data, this is 0.01%
 data.core.asv.t <- as.data.frame(t(data.core.asv))
 #data.core.asv.t[data.core.asv.t < 5] <- 0 # threshold for presence = 5
-data.core.asv.t[data.core.asv.t < threshold] <- 0 # threshold for presence = 0.1%
+data.core.asv.t[data.core.asv.t < threshold] <- 0 # threshold for presence = 0.01%
 data.core.asv.t.pa <- decostand(data.core.asv.t, method="pa")
 
 # initialize result data frame
@@ -103,15 +116,17 @@ rownames(percent.per.pop) <- paste(data.core.tax$Genus, data.core.tax$asv)
 ### Order rows manually
 rownames(percent.per.pop)
 new_order <- c("Diplorickettsia ASV_2", "Mycoplasma ASV_4", "Borrelia ASV_3", 
-               "Chlamydiales ASV_1", "Acaricomes ASV_15", "Brevibacterium ASV_8",
-               "Tsukamurella ASV_18", "Pseudomonas ASV_21", "Stenotrophomonas ASV_30",
-               "Staphylococcus ASV_43", "Leucobacter ASV_45", "Enterobacter ASV_65",
-               "Enterobacter ASV_68")
+                            "Chlamydiales ASV_1", "Acaricomes ASV_15", "Rickettsiaceae ASV_6", 
+                            "Brevibacterium ASV_8", "Brevibacterium ASV_10", "Weeksellaceae ASV_47", 
+                            "Entomoplasma ASV_11", "Entomoplasma ASV_14", "Entomoplasma ASV_7", "Entomoplasma ASV_25", "Entomoplasma ASV_44",
+                            "Staphylococcus ASV_43","Pseudomonas ASV_21", "Enterobacter ASV_65",
+                            "Enterobacter ASV_68", "Leucobacter ASV_45", "Delftia ASV_16")
 
 percent.per.pop.ordered <- percent.per.pop[new_order,]
 
 # make matrix
 percentpop.matrix <- as.matrix(percent.per.pop.ordered)
+#percentpop.matrix <- as.matrix(percent.per.pop)
 
 percentpop.matrix.t <- t(percentpop.matrix)
 
@@ -129,7 +144,7 @@ df <- as.data.frame(df)
 colnames(df) <- c("name", "number")
 
 # fix italics on latin names, but only if classified to genus level
-exceptions <- c("Chlamydiales")
+exceptions <- c("Chlamydiales", "Weeksellaceae", "Rickettsiaceae")
 df$name <- ifelse(df$name %in%  exceptions,
                   paste0(df$name),
                   paste0("italic(", df$name, ")"))
@@ -161,13 +176,14 @@ library(ggthemes)
 library(scales)
 
 ## PLOT ###
-# this doesn't work with RStudio plot device, but is fine if exported
+# this doesn't alwayswork with RStudio plot device, but is fine if exported
 p <- ggplot(dat2, aes(as.factor(Var1), Var2, group=Var2)) +
   theme_bw() + 
   geom_tile(aes(fill = Prevalence)) + 
   scale_fill_gradient(low = "white", high = "darkgreen", labels = percent, name="Prevalence\nin population") +
-  theme(text=element_text(family="Helvetica"), axis.title.y = element_blank()) +
-  xlab("Spider populations") +
+  theme(text=element_text(family="Helvetica"), axis.title.y = element_blank(), axis.title.x=element_blank()) +
+  #xlab("Spider populations") +
+  theme(axis.title = element_blank()) +
   scale_y_discrete(breaks=unique(dat2$Var2), labels=parse(text=as.character(unique(dat2$Var2)))) +  
   theme(legend.text=element_text(size=10), legend.title=element_text(size=10)) +
   facet_grid(.~species, scales="free_x", space="free_x") +
@@ -176,8 +192,11 @@ p <- ggplot(dat2, aes(as.factor(Var1), Var2, group=Var2)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8, color = 'black')) +
   theme(axis.text.y = element_text(size = 8, color = 'black'))
 
+p
+
 # export
-ggsave("Prevalence_heatmap.jpg", p, 
-       scale = 1, width = 18, height = 10, units = "cm",
+ggsave("Prevalence_heatmap_populations.png", p, 
+       scale = 1, width = 20, height = 15, units = "cm",
        dpi = 600, limitsize = TRUE)
+
 
