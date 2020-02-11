@@ -8,7 +8,7 @@
 
 setwd("~/") 
 study <- "TSPfinal"
-
+library(ggplot2)
 ################### IMPORT #####################################################
 
 data.asv.norm <- read.csv(sprintf("%s_DADA2_Subsampl3000.ASVtable.csv", study), row.names=1)
@@ -100,9 +100,9 @@ hej <- pairwise.t.test(chart.data$m, chart.data$species,
                 p.adjust.method = "BH")
 hej2 <- hej$p.value
 
-dum.mim <- paste0("p = ", as.character(formatC(hej2[1,1], format = "e", digits = 2)))
-mim.sar <- paste0("p = ", as.character(formatC(hej2[2,2], format = "e", digits = 2)))
-dum.sar <- paste0("p = ", as.character(formatC(hej2[2,1], format = "e", digits = 2)))
+dum.mim <- paste0("p = ", ifelse(hej2[1,1] < 0.01, as.character(formatC(hej2[1,1], format = "e", digits = 2)), as.character(round(hej2[1,1], 3))))
+mim.sar <- paste0("p = ", ifelse(hej2[2,2] < 0.01, as.character(formatC(hej2[2,2], format = "e", digits = 2)), as.character(round(hej2[2,2], 3))))
+dum.sar <- paste0("p = ", ifelse(hej2[2,1] < 0.01, as.character(formatC(hej2[2,1], format = "e", digits = 2)), as.character(round(hej2[2,1], 3))))
 
 ggplot(chart.data, aes(x=species, y=m)) +
   geom_boxplot(color="black", outlier.shape=1) + 
@@ -131,7 +131,7 @@ ggsave(sprintf("DMN_boxplot_3sp_signifBars_pval.jpg"),
 m <- "shannon"
 chart.data <- data.frame(m = c(1), "study" = c(1))
 for (s in study.species) {
-  dat <- get(paste0(s, "_Gini_samples"))
+  dat <- get(paste0(s, "_samples"))
   m.vec <- dat[m, 1:(ncol(dat)-2)]
   m.dat <- rbind(m.vec, rep(s, (ncol(dat)-2)))
   m.dat <- as.data.frame(t(m.dat))
@@ -156,9 +156,9 @@ hej <- pairwise.t.test(chart.data$m, chart.data$species,
                        p.adjust.method = "BH")
 hej2 <- hej$p.value
 
-dum.mim <- paste0("p = ", as.character(formatC(hej2[1,1], format = "e", digits = 2)))
-mim.sar <- paste0("p = ", as.character(formatC(hej2[2,2], format = "e", digits = 2)))
-dum.sar <- paste0("p = ", as.character(formatC(hej2[2,1], format = "e", digits = 2)))
+dum.mim <- paste0("p = ", ifelse(hej2[1,1] < 0.01, as.character(formatC(hej2[1,1], format = "e", digits = 2)), as.character(round(hej2[1,1], 3))))
+mim.sar <- paste0("p = ", ifelse(hej2[2,2] < 0.01, as.character(formatC(hej2[2,2], format = "e", digits = 2)), as.character(round(hej2[2,2], 3))))
+dum.sar <- paste0("p = ", ifelse(hej2[2,1] < 0.01, as.character(formatC(hej2[2,1], format = "e", digits = 2)), as.character(round(hej2[2,1], 3))))
 
 ggplot(chart.data, aes(x=species, y=m)) +
   geom_boxplot(color="black", outlier.shape=1) + 
@@ -187,7 +187,7 @@ ggsave(sprintf("Shannon_boxplot_3sp_signifBars.jpg"),
 m <- "asv_numbers_thresholded"
 chart.data <- data.frame(m = c(1), "study" = c(1))
 for (s in study.species) {
-  dat <- get(paste0(s, "_Gini_samples"))
+  dat <- get(paste0(s, "_samples"))
   m.vec <- dat[m, 1:(ncol(dat)-2)]
   m.dat <- rbind(m.vec, rep(s, (ncol(dat)-2)))
   m.dat <- as.data.frame(t(m.dat))
@@ -211,9 +211,9 @@ hej <- pairwise.t.test(chart.data$m, chart.data$species,
                        p.adjust.method = "BH")
 hej2 <- hej$p.value
 
-dum.mim <- paste0("p = ", as.character(formatC(hej2[1,1], format = "e", digits = 2)))
-mim.sar <- paste0("p = ", as.character(formatC(hej2[2,2], format = "e", digits = 2)))
-dum.sar <- paste0("p = ", as.character(formatC(hej2[2,1], format = "e", digits = 2)))
+dum.mim <- paste0("p = ", ifelse(hej2[1,1] < 0.01, as.character(formatC(hej2[1,1], format = "e", digits = 2)), as.character(round(hej2[1,1], 3))))
+mim.sar <- paste0("p = ", ifelse(hej2[2,2] < 0.01, as.character(formatC(hej2[2,2], format = "e", digits = 2)), as.character(round(hej2[2,2], 3))))
+dum.sar <- paste0("p = ", ifelse(hej2[2,1] < 0.01, as.character(formatC(hej2[2,1], format = "e", digits = 2)), as.character(round(hej2[2,1], 3))))
 
 ggplot(chart.data, aes(x=species, y=m)) +
   geom_boxplot(color="black", outlier.shape=1) + 
