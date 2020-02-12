@@ -10,6 +10,9 @@
 setwd("~/") 
 study <- "TSPfinal"
 
+addline_format <- function(x,...){
+  gsub('\\s','\n',x)
+}
 ################### IMPORT #####################################################
 
 data.asv <- read.csv(sprintf("%s_DADA2_Subsampl3000.ASVtable.csv", study), row.names=1)
@@ -97,9 +100,9 @@ hej2 <- hej$p.value
 #View(hej2)
 
 # insert p values
-nest.spop <- paste0("p = ", as.character(formatC(hej2[1,1], format = "e", digits = 2)))
-spop.dpop <- paste0("p = ", as.character(formatC(hej2[2,2], format = "e", digits = 2)))
-nest.dpop <- paste0("p = ", as.character(formatC(hej2[2,1], format = "e", digits = 2)))
+nest.spop <- paste0("p = ", ifelse(hej2[1,1] < 0.01, as.character(formatC(hej2[1,1], format = "e", digits = 2)), as.character(round(hej2[1,1], 3))))
+spop.dpop <- paste0("p = ", ifelse(hej2[2,2] < 0.01, as.character(formatC(hej2[2,2], format = "e", digits = 2)), as.character(round(hej2[2,2], 3))))
+nest.dpop <- paste0("p = ", ifelse(hej2[2,1] < 0.01, as.character(formatC(hej2[2,1], format = "e", digits = 2)), as.character(round(hej2[2,1], 3))))
 # # OR significance indication
 # nest.spop <- ifelse(hej2[1,1] <= 0.01, "*", "not significant")
 # spop.dpop <- ifelse(hej2[2,2] <= 0.01, "*", "not significant")
@@ -209,9 +212,9 @@ hej2 <- hej$p.value
 #View(hej2)
 
 # insert p values
-nest.spop <- paste0("p = ", as.character(formatC(hej2[1,1], format = "e", digits = 2)))
-spop.dpop <- paste0("p = ", as.character(formatC(hej2[2,2], format = "e", digits = 2)))
-nest.dpop <- paste0("p = ", as.character(formatC(hej2[2,1], format = "e", digits = 2)))
+nest.spop <- paste0("p = ", ifelse(hej2[1,1] < 0.01, as.character(formatC(hej2[1,1], format = "e", digits = 2)), as.character(round(hej2[1,1], 3))))
+spop.dpop <- paste0("p = ", ifelse(hej2[2,2] < 0.01, as.character(formatC(hej2[2,2], format = "e", digits = 2)), as.character(round(hej2[2,2], 3))))
+nest.dpop <- paste0("p = ", ifelse(hej2[2,1] < 0.01, as.character(formatC(hej2[2,1], format = "e", digits = 2)), as.character(round(hej2[2,1], 3))))
 # # OR significance indication
 # nest.spop <- ifelse(hej2[1,1] <= 0.01, "*", "not significant")
 # spop.dpop <- ifelse(hej2[2,2] <= 0.01, "*", "not significant")
@@ -319,9 +322,9 @@ hej2 <- hej$p.value
 #View(hej2)
 
 # insert p values
-nest.spop <- paste0("p = ", as.character(formatC(hej2[1,1], format = "e", digits = 2)))
-spop.dpop <- paste0("p = ", as.character(formatC(hej2[2,2], format = "e", digits = 2)))
-nest.dpop <- paste0("p = ", as.character(formatC(hej2[2,1], format = "e", digits = 2)))
+nest.spop <- paste0("p = ", ifelse(hej2[1,1] < 0.01, as.character(formatC(hej2[1,1], format = "e", digits = 2)), as.character(round(hej2[1,1], 3))))
+spop.dpop <- paste0("p = ", ifelse(hej2[2,2] < 0.01, as.character(formatC(hej2[2,2], format = "e", digits = 2)), as.character(round(hej2[2,2], 3))))
+nest.dpop <- paste0("p = ", ifelse(hej2[2,1] < 0.01, as.character(formatC(hej2[2,1], format = "e", digits = 2)), as.character(round(hej2[2,1], 3))))
 # # OR significance indication
 # nest.spop <- ifelse(hej2[1,1] <= 0.01, "*", "not significant")
 # spop.dpop <- ifelse(hej2[2,2] <= 0.01, "*", "not significant")
